@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+        "time"
 )
 
 func main() {
@@ -13,11 +14,13 @@ func main() {
 	name := os.Getenv("VIRTUSER")
 	fileLocation := os.Getenv("SSHUPLOADFILE")
 	fileSize := os.Getenv("SSHUPLOADBYTES")
+	currentTime := time.Now().Format(time.RFC3339)
 	fileLocation = strings.Replace(fileLocation, "\\", "/", -1)
 
 	log.Println("Version 1.0")
 
-	payloadRaw := "{\"@type\":\"MessageCard\",\"@context\":\"http://schema.org/extensions\",\"Summary\":\"Testing\",\"themeColor\":\"00ff00\",\"sections\":[{\"activityTitle\":\"New Data has arrived on the FTP Server\",\"facts\":[{\"name\":\"User:\",\"value\":\"XXXX\"},{\"name\":\"File:\",\"value\":\"YYYY\"},{\"name\":\"Size:\",\"value\":\"ZZZZ\"}]}]}"
+	payloadRaw := "{\"@type\":\"MessageCard\",\"@context\":\"http://schema.org/extensions\",\"Summary\":\"Testing\",\"themeColor\":\"00ff00\",\"sections\":[{\"activityTitle\":\"New Data has arrived on the FTP Server\",\"facts\":[{\"name\":\"User:\",\"value\":\"XXXX\"},{\"name\":\"File:\",\"value\":\"YYYY\"},{\"name\":\"Size:\",\"value\":\"ZZZZ\"},{\"name\":\"Date:\",\"value\":\"TTTT\"}]}]}"
+
 	payloadRaw = strings.Replace(payloadRaw, "XXXX", name, 1)
 	payloadRaw = strings.Replace(payloadRaw, "YYYY", fileLocation, 1)
 	payloadRaw = strings.Replace(payloadRaw, "ZZZZ", fileSize, 1)
